@@ -3,6 +3,7 @@ package io.zipcoder;
 import io.zipcoder.utils.Item;
 import io.zipcoder.utils.ItemParseException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,11 +15,16 @@ public class ItemParser {
     private String expiration;
 // sample: naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##
 
-    public List<Item> parseItemList(String valueToParse) {
-        String pattern = "";
-        Pattern p = Pattern.compile(pattern);
-        Matcher m = p.matcher(valueToParse);
-        return null;
+    public List<Item> parseItemList(String valueToParse) throws ItemParseException {
+        List<String> stringList = new ArrayList<>();
+        while (valueToParse != null){
+            stringList.add(valueToParse.split("##").toString());
+        }
+        List<Item> itemList = new ArrayList<>();
+        for(String s : stringList){
+            itemList.add(parseSingleItem(s));
+        }
+        return itemList;
     }
 
     public Item parseSingleItem(String singleItem) throws ItemParseException {
